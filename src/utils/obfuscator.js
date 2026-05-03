@@ -103,8 +103,20 @@ class Obfuscator {
   async _processFile(filePath) {
     // Check if file should be skipped (e.g., config files)
     const basename = path.basename(filePath).toLowerCase();
-    if (basename === 'config.cpp' || basename === 'config.bin') {
+    if (basename === 'config.bin') {
       this.stats.filesSkipped++;
+      return;
+    }
+
+    // For config.cpp: only remove comments and trim whitespace (light treatment)
+    if (basename === 'config.cpp') {
+      const original = fs.readFileSync(filePath, 'utf8');
+      this.stats.originalSize += Buffer.byteLength(original, 'utf8');
+      let code = this._removeComments(original);
+      code = this._trimWhitespace(code);
+      fs.writeFileSync(filePath, code, 'utf8');
+      this.stats.obfuscatedSize += Buffer.byteLength(code, 'utf8');
+      this.stats.filesProcessed++;
       return;
     }
 
@@ -332,13 +344,20 @@ class Obfuscator {
 
   _findScripts(dirPath) {
     const scripts = [];
+    // Skip directories that should never be processed
+    const skipDirs = new Set(['layouts', 'gui', 'textures', 'sounds', 'data', 'bliss']);
     const items = fs.readdirSync(dirPath);
     for (const item of items) {
       const fullPath = path.join(dirPath, item);
       const stat = fs.statSync(fullPath);
       if (stat.isDirectory()) {
-        scripts.push(...this._findScripts(fullPath));
-      } else if (item.endsWith('.c')) {
+        if (!skipDirs.has(item.toLowerCase())) {
+          scripts.push(...this._findScripts(fullPath));
+        }
+      } else if (item.endsWith('.c') || item.endsWith('.cpp')) {
+        // Skip non-script files: .paa (textures), .layout (UI), .edds, .rvmat, etc.
+        const lower = item.toLowerCase();
+        if (lower === 'config.bin') continue;
         scripts.push(fullPath);
       }
     }
