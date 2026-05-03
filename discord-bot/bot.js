@@ -224,7 +224,7 @@ client.on('interactionCreate', async (interaction) => {
 
         // Check max keys
         const activeKeys = db.prepare(
-          'SELECT COUNT(*) as count FROM licenses WHERE discord_user_id = ? AND revoked = 0 AND expires_at > datetime("now")'
+          "SELECT COUNT(*) as count FROM licenses WHERE discord_user_id = ? AND revoked = 0 AND expires_at > datetime('now')"
         ).get(targetId);
 
         if (activeKeys.count >= config.maxKeysPerUser && !isAdmin(member)) {
@@ -324,7 +324,7 @@ client.on('interactionCreate', async (interaction) => {
         }
 
         db.prepare(
-          'UPDATE licenses SET revoked = 1, revoked_at = datetime("now"), revoked_by = ? WHERE key = ?'
+          "UPDATE licenses SET revoked = 1, revoked_at = datetime('now'), revoked_by = ? WHERE key = ?"
         ).run(user.username, key);
 
         await interaction.reply({
@@ -343,7 +343,7 @@ client.on('interactionCreate', async (interaction) => {
         }
 
         const keys = db.prepare(
-          'SELECT * FROM licenses WHERE revoked = 0 AND expires_at > datetime("now") ORDER BY created_at DESC LIMIT 25'
+          "SELECT * FROM licenses WHERE revoked = 0 AND expires_at > datetime('now') ORDER BY created_at DESC LIMIT 25"
         ).all();
 
         if (keys.length === 0) {
@@ -360,7 +360,7 @@ client.on('interactionCreate', async (interaction) => {
         }
 
         const totalActive = db.prepare(
-          'SELECT COUNT(*) as count FROM licenses WHERE revoked = 0 AND expires_at > datetime("now")'
+          "SELECT COUNT(*) as count FROM licenses WHERE revoked = 0 AND expires_at > datetime('now')"
         ).get();
 
         const embed = createEmbed('Chaves Ativas', description, 0x00d4ff)
@@ -372,7 +372,7 @@ client.on('interactionCreate', async (interaction) => {
 
       case 'minha-key': {
         const keys = db.prepare(
-          'SELECT * FROM licenses WHERE discord_user_id = ? AND revoked = 0 AND expires_at > datetime("now") ORDER BY created_at DESC'
+          "SELECT * FROM licenses WHERE discord_user_id = ? AND revoked = 0 AND expires_at > datetime('now') ORDER BY created_at DESC"
         ).all(user.id);
 
         if (keys.length === 0) {
