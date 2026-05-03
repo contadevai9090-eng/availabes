@@ -1,0 +1,41 @@
+{
+  "name": "pixpbo-protect",
+  "version": "1.0.0",
+  "description": "PixPBO Protect - Proteja, compacte e assine seus mods DayZ com segurança.",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win",
+    "dev": "electron .",
+    "lint": "echo 'No lint configured'"
+  },
+  "author": "PixPBO Team",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.1.0",
+    "electron-builder": "^24.9.1"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.10",
+    "crypto-js": "^4.2.0",
+    "discord.js": "^14.14.1",
+    "electron-store": "^8.1.0",
+    "uuid": "^9.0.0",
+    "winston": "^3.11.0"
+  },
+  "build": {
+    "appId": "com.pixpbo.protect",
+    "productName": "PixPBO Protect",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "src/assets/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
