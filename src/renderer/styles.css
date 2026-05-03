@@ -515,6 +515,47 @@ body {
   color: var(--text-secondary);
 }
 
+/* Output Path Section */
+.output-path-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+}
+
+.output-path-section h4 {
+  color: var(--neon-blue);
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.output-path-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.output-path-display {
+  flex: 1;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 8px 14px;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-family: 'Consolas', 'Courier New', monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.neon-btn.small-btn {
+  padding: 6px 12px;
+  font-size: 12px;
+  min-width: auto;
+}
+
 .info-banner {
   background: rgba(0, 212, 255, 0.05);
   border: 1px solid rgba(0, 212, 255, 0.2);

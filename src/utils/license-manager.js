@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const os = require('os');
 const { getLogger } = require('./logger');
 
 /**
@@ -19,7 +20,9 @@ class LicenseManager {
     this.logger = getLogger();
     this.configDir = this._getConfigDir();
     this.keyFile = path.join(this.configDir, 'license.dat');
+    this.activationFile = path.join(this.configDir, 'activation.dat');
     this.SECRET = 'pixpbo-protect-2024-secure-key';
+    this.machineId = this._generateMachineId();
   }
 
   /**
@@ -56,6 +59,12 @@ class LicenseManager {
     // Check checksum
     if (!this._verifyChecksum(key)) {
       return { valid: false, reason: 'Checksum inválido' };
+    }
+
+    // Check single-use: if key was activated on a different machine, reject
+    const activation = this._getActivation(key);
+    if (activation && activation.machineId !== this.machineId) {
+      return { valid: false, reason: 'Esta chave ja foi ativada em outro computador. Cada chave so pode ser usada uma vez.' };
     }
 
     return {
@@ -104,17 +113,27 @@ class LicenseManager {
   }
 
   /**
-   * Save license key to disk
+   * Save license key to disk (single-use: binds to this machine)
    */
   saveKey(key) {
     if (!fs.existsSync(this.configDir)) {
       fs.mkdirSync(this.configDir, { recursive: true });
     }
 
+    // Check if this key was already activated on a different machine
+    const existingActivation = this._getActivation(key);
+    if (existingActivation && existingActivation.machineId !== this.machineId) {
+      throw new Error('Esta chave ja foi ativada em outro computador. Cada chave so pode ser usada uma vez.');
+    }
+
     // Encrypt key before saving
     const encrypted = this._encrypt(key);
     fs.writeFileSync(this.keyFile, encrypted, 'utf8');
-    this.logger.info('License key saved');
+
+    // Save activation record (binds key to this machine)
+    this._saveActivation(key, this.machineId);
+
+    this.logger.info('License key saved and activated on this machine');
   }
 
   /**
@@ -127,7 +146,16 @@ class LicenseManager {
 
     try {
       const encrypted = fs.readFileSync(this.keyFile, 'utf8');
-      return this._decrypt(encrypted);
+      const key = this._decrypt(encrypted);
+
+      // Verify this key is activated on this machine
+      const activation = this._getActivation(key);
+      if (activation && activation.machineId !== this.machineId) {
+        this.logger.error('License key was activated on a different machine');
+        return null;
+      }
+
+      return key;
     } catch (error) {
       this.logger.error(`Failed to load license: ${error.message}`);
       return null;
@@ -180,6 +208,58 @@ class LicenseManager {
       return checkChars === expectedChecksum;
     } catch (error) {
       return false;
+    }
+  }
+
+  /**
+   * Generate a unique machine ID based on hardware/OS info
+   */
+  _generateMachineId() {
+    const info = [
+      os.hostname(),
+      os.platform(),
+      os.arch(),
+      os.cpus()[0]?.model || 'unknown',
+      os.totalmem().toString(),
+      os.homedir(),
+    ].join('|');
+
+    return crypto
+      .createHash('sha256')
+      .update(info)
+      .digest('hex')
+      .substring(0, 16);
+  }
+
+  /**
+   * Save activation record
+   */
+  _saveActivation(key, machineId) {
+    const data = {
+      key: key,
+      machineId: machineId,
+      activatedAt: new Date().toISOString(),
+    };
+    const encrypted = this._encrypt(JSON.stringify(data));
+    fs.writeFileSync(this.activationFile, encrypted, 'utf8');
+  }
+
+  /**
+   * Get activation record for a key
+   */
+  _getActivation(key) {
+    if (!fs.existsSync(this.activationFile)) {
+      return null;
+    }
+    try {
+      const encrypted = fs.readFileSync(this.activationFile, 'utf8');
+      const data = JSON.parse(this._decrypt(encrypted));
+      if (data.key === key) {
+        return data;
+      }
+      return null;
+    } catch (error) {
+      return null;
     }
   }
 

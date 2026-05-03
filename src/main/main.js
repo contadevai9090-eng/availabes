@@ -12,6 +12,7 @@ const { BackupManager } = require('../utils/backup-manager');
 
 let mainWindow;
 let logger;
+let customOutputPath = null;
 
 // App paths
 const APP_PATHS = {
@@ -95,6 +96,31 @@ ipcMain.handle('select-folder', async () => {
   return result.canceled ? null : result.filePaths[0];
 });
 
+// Select output folder
+ipcMain.handle('select-output-folder', async () => {
+  const result = await dialog.showOpenDialog(mainWindow, {
+    properties: ['openDirectory', 'createDirectory'],
+    title: 'Selecionar Pasta de Saida para o PBO',
+    defaultPath: customOutputPath || APP_PATHS.output,
+  });
+  if (!result.canceled && result.filePaths[0]) {
+    customOutputPath = result.filePaths[0];
+    return customOutputPath;
+  }
+  return null;
+});
+
+// Get current output path
+ipcMain.handle('get-output-path', async () => {
+  return customOutputPath || APP_PATHS.output;
+});
+
+// Reset output path to default
+ipcMain.handle('reset-output-path', async () => {
+  customOutputPath = null;
+  return APP_PATHS.output;
+});
+
 // Open file dialog for .pbo
 ipcMain.handle('select-pbo', async () => {
   const result = await dialog.showOpenDialog(mainWindow, {
@@ -168,7 +194,7 @@ ipcMain.handle('repack-pbo', async (event, { sourcePath, outputPath }) => {
   try {
     logger.info(`Repacking PBO from: ${sourcePath}`);
     const pboManager = new PBOManager(APP_PATHS);
-    const outDir = outputPath || APP_PATHS.output;
+    const outDir = outputPath || customOutputPath || APP_PATHS.output;
     const result = await pboManager.repack(sourcePath, outDir);
     logger.info('PBO repacking complete');
     return { success: true, data: result };
@@ -285,7 +311,8 @@ ipcMain.handle('run-pipeline', async (event, { sourcePath, options }) => {
     if (options.repack) {
       event.sender.send('pipeline-progress', { step: 'repack', status: 'running' });
       const pboManager = new PBOManager(APP_PATHS);
-      const repackResult = await pboManager.repack(sourcePath, APP_PATHS.output);
+      const outDir = customOutputPath || APP_PATHS.output;
+      const repackResult = await pboManager.repack(sourcePath, outDir);
       results.steps.push({ name: 'Reempacotamento', status: 'success', data: repackResult });
       event.sender.send('pipeline-progress', { step: 'repack', status: 'done' });
     }
@@ -295,7 +322,7 @@ ipcMain.handle('run-pipeline', async (event, { sourcePath, options }) => {
       event.sender.send('pipeline-progress', { step: 'sign', status: 'running' });
       const signer = new ModSigner(APP_PATHS.keys);
       const signResult = await signer.sign(
-        path.join(APP_PATHS.output, path.basename(sourcePath) + '.pbo'),
+        path.join(customOutputPath || APP_PATHS.output, path.basename(sourcePath) + '.pbo'),
         options.keyName || 'pixpbo'
       );
       results.steps.push({ name: 'Assinatura', status: 'success', data: signResult });

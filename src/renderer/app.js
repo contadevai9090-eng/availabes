@@ -4,6 +4,7 @@
 
 let currentPath = null;
 let lastReport = null;
+let currentOutputPath = null;
 
 // ---- Tab Navigation ----
 function switchTab(tabName) {
@@ -76,6 +77,35 @@ function showApp(licenseData) {
     document.getElementById('license-status-text').textContent =
       `${licenseData.tier === 'pro' ? 'Pro' : 'Basic'} - ${licenseData.daysRemaining}d`;
   }
+
+  loadOutputPath();
+}
+
+// ---- Output Path ----
+async function loadOutputPath() {
+  currentOutputPath = await window.pixpbo.getOutputPath();
+  const el = document.getElementById('output-path-display');
+  if (el) el.textContent = currentOutputPath;
+}
+
+async function selectOutputPath() {
+  const newPath = await window.pixpbo.selectOutputFolder();
+  if (newPath) {
+    currentOutputPath = newPath;
+    document.getElementById('output-path-display').textContent = newPath;
+    showToast('Pasta de saida atualizada!', 'success');
+  }
+}
+
+async function resetOutputPath() {
+  currentOutputPath = await window.pixpbo.resetOutputPath();
+  document.getElementById('output-path-display').textContent = currentOutputPath;
+  showToast('Pasta de saida restaurada para padrao.', 'success');
+}
+
+async function openOutputFolder() {
+  const outPath = currentOutputPath || await window.pixpbo.getOutputPath();
+  await window.pixpbo.openPath(outPath);
 }
 
 // ---- Analyze ----

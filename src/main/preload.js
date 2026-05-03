@@ -11,6 +11,9 @@ contextBridge.exposeInMainWorld('pixpbo', {
   // Dialogs
   selectFolder: () => ipcRenderer.invoke('select-folder'),
   selectPBO: () => ipcRenderer.invoke('select-pbo'),
+  selectOutputFolder: () => ipcRenderer.invoke('select-output-folder'),
+  getOutputPath: () => ipcRenderer.invoke('get-output-path'),
+  resetOutputPath: () => ipcRenderer.invoke('reset-output-path'),
 
   // Core functions
   analyzePBO: (pboPath) => ipcRenderer.invoke('analyze-pbo', pboPath),

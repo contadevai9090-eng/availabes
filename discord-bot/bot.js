@@ -51,7 +51,10 @@ db.exec(`
     expires_at DATETIME NOT NULL,
     revoked INTEGER DEFAULT 0,
     revoked_at DATETIME,
-    revoked_by TEXT
+    revoked_by TEXT,
+    activated INTEGER DEFAULT 0,
+    activated_at DATETIME,
+    machine_id TEXT
   );
 
   CREATE INDEX IF NOT EXISTS idx_key ON licenses(key);
@@ -255,6 +258,7 @@ client.on('interactionCreate', async (interaction) => {
           { name: 'Validade', value: `${days} dias`, inline: true },
           { name: 'Expira em', value: new Date(expiresAt).toLocaleDateString('pt-BR'), inline: true },
           { name: 'Usuario', value: targetName, inline: true },
+          { name: 'Uso Unico', value: 'Sim - So pode ser ativada em 1 PC', inline: true },
         );
 
         // Send key privately
@@ -288,7 +292,8 @@ client.on('interactionCreate', async (interaction) => {
 
         const isExpired = new Date(license.expires_at) < new Date();
         const isRevoked = license.revoked === 1;
-        const status = isRevoked ? 'Revogada' : isExpired ? 'Expirada' : 'Ativa';
+        const isActivated = license.activated === 1;
+        const status = isRevoked ? 'Revogada' : isExpired ? 'Expirada' : isActivated ? 'Ativa (Em uso)' : 'Ativa (Nao ativada)';
         const color = isRevoked || isExpired ? 0xef4444 : 0x22c55e;
 
         const embed = createEmbed('Status da Chave', '', color)
@@ -296,6 +301,7 @@ client.on('interactionCreate', async (interaction) => {
             { name: 'Chave', value: `\`${key}\``, inline: false },
             { name: 'Status', value: status, inline: true },
             { name: 'Tier', value: license.tier === 'pro' ? 'Pro' : 'Basic', inline: true },
+            { name: 'Uso Unico', value: isActivated ? 'Ja ativada' : 'Disponivel', inline: true },
             { name: 'Criada em', value: new Date(license.created_at).toLocaleDateString('pt-BR'), inline: true },
             { name: 'Expira em', value: new Date(license.expires_at).toLocaleDateString('pt-BR'), inline: true },
             { name: 'Usuario', value: license.discord_username, inline: true },
