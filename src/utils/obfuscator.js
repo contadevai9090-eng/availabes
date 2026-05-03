@@ -101,17 +101,17 @@ class Obfuscator {
    * Obfuscate a single script file
    */
   async _processFile(filePath) {
-    const original = fs.readFileSync(filePath, 'utf8');
-    this.stats.originalSize += Buffer.byteLength(original, 'utf8');
-
-    let code = original;
-
     // Check if file should be skipped (e.g., config files)
     const basename = path.basename(filePath).toLowerCase();
     if (basename === 'config.cpp' || basename === 'config.bin') {
       this.stats.filesSkipped++;
       return;
     }
+
+    const original = fs.readFileSync(filePath, 'utf8');
+    this.stats.originalSize += Buffer.byteLength(original, 'utf8');
+
+    let code = original;
 
     // Level: Light
     code = this._removeComments(code);

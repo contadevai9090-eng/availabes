@@ -1,5 +1,7 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
+let pipelineProgressListener = null;
+
 contextBridge.exposeInMainWorld('pixpbo', {
   // Window controls
   minimize: () => ipcRenderer.send('window-minimize'),
@@ -22,7 +24,11 @@ contextBridge.exposeInMainWorld('pixpbo', {
   // Pipeline
   runPipeline: (options) => ipcRenderer.invoke('run-pipeline', options),
   onPipelineProgress: (callback) => {
-    ipcRenderer.on('pipeline-progress', (event, data) => callback(data));
+    if (pipelineProgressListener) {
+      ipcRenderer.removeListener('pipeline-progress', pipelineProgressListener);
+    }
+    pipelineProgressListener = (event, data) => callback(data);
+    ipcRenderer.on('pipeline-progress', pipelineProgressListener);
   },
 
   // License

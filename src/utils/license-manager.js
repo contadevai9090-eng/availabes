@@ -83,10 +83,13 @@ class LicenseManager {
     const seg1 = expHex.substring(0, 4);
     const seg2 = expHex.substring(4, 8);
     const seg3 = expHex.substring(8, 12);
-    const seg4 = `${tierCode}${featHex}${this._randomChar()}`;
 
-    // Calculate checksum
-    const rawKey = `PIXPBO-${seg1}-${seg2}-${seg3}-${seg4}`;
+    // First 2 chars of seg4 encode tier+feature prefix
+    const seg4Prefix = `${tierCode}${featHex.charAt(0)}`;
+
+    // Calculate checksum using the same format as _verifyChecksum
+    const rawSeg4 = seg4Prefix + 'XX';
+    const rawKey = `PIXPBO-${seg1}-${seg2}-${seg3}-${rawSeg4}`;
     const checksum = crypto
       .createHmac('sha256', 'pixpbo-protect-2024-secure-key')
       .update(rawKey)
@@ -94,8 +97,7 @@ class LicenseManager {
       .substring(0, 2)
       .toUpperCase();
 
-    // Replace last 2 chars of seg4 with checksum chars
-    const finalSeg4 = seg4.substring(0, 2) + checksum;
+    const finalSeg4 = seg4Prefix + checksum;
     const key = `PIXPBO-${seg1}-${seg2}-${seg3}-${finalSeg4}`;
 
     return key;

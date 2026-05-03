@@ -72,9 +72,13 @@ function generateKey(durationDays = 30, tier = 'pro') {
   const seg1 = expHex.substring(0, 4);
   const seg2 = expHex.substring(4, 8);
   const seg3 = expHex.substring(8, 12);
-  const seg4Prefix = `${tierCode}${featHex}`;
 
-  const rawKey = `PIXPBO-${seg1}-${seg2}-${seg3}-${seg4Prefix}X`;
+  // First 2 chars of seg4 encode tier+feature prefix
+  const seg4Prefix = `${tierCode}${featHex.charAt(0)}`;
+
+  // Calculate checksum using the same format as client verification
+  const rawSeg4 = seg4Prefix + 'XX';
+  const rawKey = `PIXPBO-${seg1}-${seg2}-${seg3}-${rawSeg4}`;
   const checksum = crypto
     .createHmac('sha256', SECRET)
     .update(rawKey)
@@ -82,7 +86,7 @@ function generateKey(durationDays = 30, tier = 'pro') {
     .substring(0, 2)
     .toUpperCase();
 
-  const finalSeg4 = seg4Prefix.substring(0, 2) + checksum;
+  const finalSeg4 = seg4Prefix + checksum;
   return `PIXPBO-${seg1}-${seg2}-${seg3}-${finalSeg4}`;
 }
 
