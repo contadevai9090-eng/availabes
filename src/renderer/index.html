@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PixPBO Protect</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Title Bar -->
+  <div class="titlebar" id="titlebar">
+    <div class="titlebar-logo">
+      <img src="../assets/logo.svg" alt="PixPBO" class="titlebar-icon">
+      <span class="titlebar-text">PixPBO Protect</span>
+    </div>
+    <div class="titlebar-controls">
+      <button class="tb-btn tb-minimize" onclick="window.pixpbo.minimize()">&#x2013;</button>
+      <button class="tb-btn tb-maximize" onclick="window.pixpbo.maximize()">&#x25A1;</button>
+      <button class="tb-btn tb-close" onclick="window.pixpbo.close()">&#x2715;</button>
+    </div>
+  </div>
+
+  <!-- License Gate -->
+  <div id="license-gate" class="license-gate">
+    <div class="license-container">
+      <div class="logo-container">
+        <img src="../assets/logo.svg" alt="PixPBO Protect" class="main-logo">
+      </div>
+      <h1 class="neon-title">PixPBO Protect</h1>
+      <p class="slogan">Proteja, compacte e assine seus mods DayZ com seguranca.</p>
+      <div class="license-form">
+        <input type="text" id="license-input" class="neon-input"
+               placeholder="PIXPBO-XXXX-XXXX-XXXX-XXXX"
+               maxlength="24" spellcheck="false" autocomplete="off">
+        <button id="license-btn" class="neon-btn primary-btn" onclick="validateLicense()">
+          <span class="btn-icon">&#128272;</span> Ativar Licenca
+        </button>
+        <p id="license-error" class="error-text"></p>
+        <p id="license-info" class="info-text"></p>
+      </div>
+      <p class="footer-text">Adquira sua chave pelo nosso bot no Discord</p>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div id="main-app" class="main-app hidden">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <img src="../assets/logo.svg" alt="PixPBO" class="sidebar-logo">
+        <span class="sidebar-title">PixPBO</span>
+      </div>
+      <div class="nav-items">
+        <button class="nav-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">
+          <span class="nav-icon">&#127968;</span> Dashboard
+        </button>
+        <button class="nav-btn" data-tab="analyze" onclick="switchTab('analyze')">
+          <span class="nav-icon">&#128269;</span> Analisar PBO
+        </button>
+        <button class="nav-btn" data-tab="obfuscate" onclick="switchTab('obfuscate')">
+          <span class="nav-icon">&#128274;</span> Obfuscar Scripts
+        </button>
+        <button class="nav-btn" data-tab="clean" onclick="switchTab('clean')">
+          <span class="nav-icon">&#128465;</span> Limpar Arquivos
+        </button>
+        <button class="nav-btn" data-tab="repack" onclick="switchTab('repack')">
+          <span class="nav-icon">&#128230;</span> Reempacotar PBO
+        </button>
+        <button class="nav-btn" data-tab="sign" onclick="switchTab('sign')">
+          <span class="nav-icon">&#9997;</span> Assinar Mod
+        </button>
+        <button class="nav-btn" data-tab="report" onclick="switchTab('report')">
+          <span class="nav-icon">&#128196;</span> Relatorio
+        </button>
+        <button class="nav-btn" data-tab="pipeline" onclick="switchTab('pipeline')">
+          <span class="nav-icon">&#9889;</span> Pipeline Completo
+        </button>
+      </div>
+      <div class="sidebar-footer">
+        <div class="license-badge" id="license-badge">
+          <span class="badge-dot"></span>
+          <span id="license-status-text">Ativo</span>
+        </div>
+        <span class="version-text">v1.0.0</span>
+      </div>
+    </nav>
+
+    <!-- Content Area -->
+    <main class="content">
+      <!-- Dashboard Tab -->
+      <section id="tab-dashboard" class="tab-content active">
+        <div class="tab-header">
+          <h2 class="tab-title">Dashboard</h2>
+          <p class="tab-subtitle">Visao geral do PixPBO Protect</p>
+        </div>
+        <div class="dashboard-grid">
+          <div class="dash-card" onclick="switchTab('analyze')">
+            <div class="dash-icon blue">&#128269;</div>
+            <h3>Analisar PBO</h3>
+            <p>Examine a estrutura do seu mod</p>
+          </div>
+          <div class="dash-card" onclick="switchTab('obfuscate')">
+            <div class="dash-icon purple">&#128274;</div>
+            <h3>Obfuscar Scripts</h3>
+            <p>Proteja seus scripts .c</p>
+          </div>
+          <div class="dash-card" onclick="switchTab('clean')">
+            <div class="dash-icon green">&#128465;</div>
+            <h3>Limpar Arquivos</h3>
+            <p>Remova arquivos desnecessarios</p>
+          </div>
+          <div class="dash-card" onclick="switchTab('repack')">
+            <div class="dash-icon orange">&#128230;</div>
+            <h3>Reempacotar PBO</h3>
+            <p>Empacote seu mod otimizado</p>
+          </div>
+          <div class="dash-card" onclick="switchTab('sign')">
+            <div class="dash-icon pink">&#9997;</div>
+            <h3>Assinar Mod</h3>
+            <p>Gere .bikey e .bisign</p>
+          </div>
+          <div class="dash-card" onclick="switchTab('pipeline')">
+            <div class="dash-icon neon">&#9889;</div>
+            <h3>Pipeline Completo</h3>
+            <p>Execute tudo automaticamente</p>
+          </div>
+        </div>
+        <div class="info-banner">
+          <span class="banner-icon">&#9888;</span>
+          <p>Esta ferramenta deve ser usada apenas para proteger mods proprios ou autorizados. O uso indevido e de responsabilidade do usuario.</p>
+        </div>
+      </section>
+
+      <!-- Analyze Tab -->
+      <section id="tab-analyze" class="tab-content">
+        <div class="tab-header">
+          <h2 class="tab-title">&#128269; Analisar PBO</h2>
+          <p class="tab-subtitle">Examine a estrutura e conteudo do seu mod</p>
+        </div>
+        <div class="action-bar">
+          <button class="neon-btn" onclick="selectAndAnalyzePBO()">
+            <span class="btn-icon">&#128193;</span> Selecionar Arquivo .pbo
+          </button>
+          <button class="neon-btn secondary-btn" onclick="selectAndAnalyzeFolder()">
+            <span class="btn-icon">&#128194;</span> Selecionar Pasta do Mod
+          </button>
+        </div>
+        <div id="analyze-path" class="path-display hidden"></div>
+        <div id="analyze-results" class="results-area hidden">
+          <div class="results-header">
+            <h3 id="analyze-title"></h3>
+            <div class="results-stats" id="analyze-stats"></div>
+          </div>
+          <div id="analyze-warnings" class="warnings-area hidden"></div>
+          <div class="file-tree" id="analyze-tree"></div>
+        </div>
+      </section>
+
+      <!-- Obfuscate Tab -->
+      <section id="tab-obfuscate" class="tab-content">
+        <div class="tab-header">
+          <h2 class="tab-title">&#128274; Obfuscar Scripts</h2>
+          <p class="tab-subtitle">Proteja seus scripts .c contra leitura e copia</p>
+        </div>
+        <div class="action-bar">
+          <button class="neon-btn" onclick="selectObfuscateFolder()">
+            <span class="btn-icon">&#128194;</span> Selecionar Pasta
+          </button>
+        </div>
+        <div id="obfuscate-path" class="path-display hidden"></div>
+        <div class="option-group">
+          <h4>Nivel de Obfuscacao:</h4>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="obf-level" value="light">
+              <span class="radio-mark"></span>
+              <div>
+                <strong>Leve</strong>
+                <p>Remove comentarios e espaços desnecessarios</p>
+              </div>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="obf-level" value="medium" checked>
+              <span class="radio-mark"></span>
+              <div>
+                <strong>Medio</strong>
+                <p>+ Renomeia variaveis locais, compacta codigo</p>
+              </div>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="obf-level" value="strong">
+              <span class="radio-mark"></span>
+              <div>
+                <strong>Forte</strong>
+                <p>+ Renomeia funcoes internas, compactacao agressiva</p>
+              </div>
+            </label>
+          </div>
+        </div>
+        <button class="neon-btn primary-btn large-btn" id="obfuscate-btn" onclick="runObfuscation()" disabled>
+          <span class="btn-icon">&#128274;</span> Obfuscar Scripts
+        </button>
+        <div id="obfuscate-results" class="results-area hidden"></div>
+      </section>
+
+      <!-- Clean Tab -->
+      <section id="tab-clean" class="tab-content">
+        <div class="tab-header">
+          <h2 class="tab-title">&#128465; Limpar Arquivos</h2>
+          <p class="tab-subtitle">Remova arquivos inuteis do seu mod</p>
+        </div>
+        <div class="action-bar">
+          <button class="neon-btn" onclick="selectCleanFolder()">
+            <span class="btn-icon">&#128194;</span> Selecionar Pasta do Mod
+          </button>
+        </div>
+        <div id="clean-path" class="path-display hidden"></div>
+        <div class="info-card">
+          <h4>Arquivos que serao removidos:</h4>
+          <ul class="clean-list">
+            <li>thumbs.db</li>
+            <li>desktop.ini</li>
+            <li>.DS_Store</li>
+            <li>Arquivos .tmp, .bak, .log, .old, .orig</li>
+            <li>Pastas .git, .svn, .vscode, .idea</li>
+          </ul>
+        </div>
+        <button class="neon-btn primary-btn large-btn" id="clean-btn" onclick="runCleaning()" disabled>
+          <span class="btn-icon">&#128465;</span> Limpar Arquivos
+        </button>
+        <div id="clean-results" class="results-area hidden"></div>
+      </section>
+
+      <!-- Repack Tab -->
+      <section id="tab-repack" class="tab-content">
+        <div class="tab-header">
+          <h2 class="tab-title">&#128230; Reempacotar PBO</h2>
+          <p class="tab-subtitle">Empacote seu mod em um novo arquivo .pbo</p>
+        </div>
+        <div class="action-bar">
+          <button class="neon-btn" onclick="selectRepackFolder()">
+            <span class="btn-icon">&#128194;</span> Selecionar Pasta do Mod
+          </button>
+        </div>
+        <div id="repack-path" class="path-display hidden"></div>
+        <button class="neon-btn primary-btn large-btn" id="repack-btn" onclick="runRepack()" disabled>
+          <span class="btn-icon">&#128230;</span> Reempacotar PBO
+        </button>
+        <div id="repack-results" class="results-area hidden"></div>
+      </section>
+
+      <!-- Sign Tab -->
+      <section id="tab-sign" class="tab-content">
+        <div class="tab-header">
+          <h2 class="tab-title">&#9997; Assinar Mod</h2>
+          <p class="tab-subtitle">Gere assinatura .bikey e .bisign para seu mod</p>
+        </div>
+        <div class="action-bar">
+          <button class="neon-btn" onclick="selectSignPBO()">
+            <span class="btn-icon">&#128193;</span> Selecionar Arquivo .pbo
+          </button>
+        </div>
+        <div id="sign-path" class="path-display hidden"></div>
+        <div class="option-group">
+          <h4>Nome da Chave:</h4>
+          <input type="text" id="key-name-input" class="neon-input" value="pixpbo" placeholder="Nome da chave">
+        </div>
+        <button class="neon-btn primary-btn large-btn" id="sign-btn" onclick="runSigning()" disabled>
+          <span class="btn-icon">&#9997;</span> Assinar Mod
+        </button>
+        <div id="sign-results" class="results-area hidden"></div>
+      </section>
+
+      <!-- Report Tab -->
+      <section id="tab-report" class="tab-content">
+        <div class="tab-header">
+          <h2 class="tab-title">&#128196; Relatorio</h2>
+          <p class="tab-subtitle">Relatorios de processamento</p>
+        </div>
+        <div id="report-content" class="report-area">
+          <div class="empty-state">
+            <span class="empty-icon">&#128196;</span>
+            <p>Nenhum relatorio gerado ainda.</p>
+            <p class="sub">Execute uma operacao para gerar um relatorio.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pipeline Tab -->
+      <section id="tab-pipeline" class="tab-content">
+        <div class="tab-header">
+          <h2 class="tab-title">&#9889; Pipeline Completo</h2>
+          <p class="tab-subtitle">Execute todas as etapas automaticamente</p>
+        </div>
+        <div class="action-bar">
+          <button class="neon-btn" onclick="selectPipelineFolder()">
+            <span class="btn-icon">&#128194;</span> Selecionar Pasta do Mod
+          </button>
+        </div>
+        <div id="pipeline-path" class="path-display hidden"></div>
+
+        <div class="pipeline-options">
+          <h4>Opcoes do Pipeline:</h4>
+          <div class="checkbox-group">
+            <label class="checkbox-option">
+              <input type="checkbox" id="pipe-clean" checked>
+              <span class="check-mark"></span>
+              Limpar arquivos inuteis
+            </label>
+            <label class="checkbox-option">
+              <input type="checkbox" id="pipe-obfuscate" checked>
+              <span class="check-mark"></span>
+              Obfuscar scripts
+            </label>
+            <label class="checkbox-option">
+              <input type="checkbox" id="pipe-repack" checked>
+              <span class="check-mark"></span>
+              Reempacotar PBO
+            </label>
+            <label class="checkbox-option">
+              <input type="checkbox" id="pipe-sign" checked>
+              <span class="check-mark"></span>
+              Assinar mod
+            </label>
+          </div>
+          <div class="option-group">
+            <h4>Nivel de Obfuscacao:</h4>
+            <select id="pipe-obf-level" class="neon-select">
+              <option value="light">Leve</option>
+              <option value="medium" selected>Medio</option>
+              <option value="strong">Forte</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="neon-btn primary-btn large-btn" id="pipeline-btn" onclick="runPipeline()" disabled>
+          <span class="btn-icon">&#9889;</span> Executar Pipeline
+        </button>
+
+        <div id="pipeline-progress" class="pipeline-steps hidden">
+          <div class="step-item" id="step-backup">
+            <span class="step-indicator"></span>
+            <span class="step-name">Backup</span>
+            <span class="step-status">Aguardando</span>
+          </div>
+          <div class="step-item" id="step-clean">
+            <span class="step-indicator"></span>
+            <span class="step-name">Limpeza</span>
+            <span class="step-status">Aguardando</span>
+          </div>
+          <div class="step-item" id="step-obfuscate">
+            <span class="step-indicator"></span>
+            <span class="step-name">Obfuscacao</span>
+            <span class="step-status">Aguardando</span>
+          </div>
+          <div class="step-item" id="step-repack">
+            <span class="step-indicator"></span>
+            <span class="step-name">Reempacotamento</span>
+            <span class="step-status">Aguardando</span>
+          </div>
+          <div class="step-item" id="step-sign">
+            <span class="step-indicator"></span>
+            <span class="step-name">Assinatura</span>
+            <span class="step-status">Aguardando</span>
+          </div>
+          <div class="step-item" id="step-report">
+            <span class="step-indicator"></span>
+            <span class="step-name">Relatorio</span>
+            <span class="step-status">Aguardando</span>
+          </div>
+        </div>
+
+        <div id="pipeline-results" class="results-area hidden"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="loader">
+      <div class="loader-ring"></div>
+      <p class="loader-text" id="loading-text">Processando...</p>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
