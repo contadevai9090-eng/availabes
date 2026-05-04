@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root>
+    <inputs>
+        <actions>
+            <input name="UAOpenPIXStoreMenu" loc="Abrir Menu PIXStore" />
+        </actions>
+        <sorting name="PIXStore" loc="PIXStore - Seguro de Veiculos">
+            <input name="UAOpenPIXStoreMenu" />
+        </sorting>
+    </inputs>
+    <preset>
+        <input name="UAOpenPIXStoreMenu">
+            <btn name="kI" />
+        </input>
+    </preset>
+</root>
