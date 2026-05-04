@@ -1,28 +1,116 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<layoutset>
-	<widget name="PIXStoreConfirmRoot" type="frame" pos="0 0" size="1 1">
-		<!-- Fundo escuro -->
-		<widget name="DialogOverlay" type="ImageWidget" pos="0 0" size="1 1" color="0 0 0" alpha="0.7" />
-
-		<!-- Caixa de dialogo -->
-		<widget name="DialogBox" type="frame" pos="0.3 0.3" size="0.4 0.3">
-			<widget name="DialogBG" type="ImageWidget" pos="0 0" size="1 1" color="0.1 0.1 0.1" alpha="0.95" />
-
-			<!-- Borda superior verde -->
-			<widget name="DialogBorder" type="ImageWidget" pos="0 0" size="1 0.04" color="0.1 0.6 0.1" alpha="1" />
-
-			<!-- Titulo -->
-			<widget name="ConfirmDialogTitle" type="TextWidget" pos="0.05 0.08" size="0.9 0.12" text="CONFIRMAR ACAO" font="gui/fonts/Roboto" fontsize="20" color="1 1 1" halign="center" />
-
-			<!-- Mensagem -->
-			<widget name="ConfirmDialogMessage" type="RichTextWidget" pos="0.05 0.25" size="0.9 0.2" text="" font="gui/fonts/Roboto" fontsize="14" color="0.8 0.8 0.8" halign="center" />
-
-			<!-- Nome do item -->
-			<widget name="ConfirmDialogItemName" type="TextWidget" pos="0.05 0.48" size="0.9 0.1" text="" font="gui/fonts/Roboto" fontsize="16" color="0.9 0.9 0.2" halign="center" />
-
-			<!-- Botoes -->
-			<widget name="btn_confirm_yes" type="ButtonWidget" pos="0.1 0.7" size="0.35 0.2" text="CONFIRMAR" font="gui/fonts/Roboto" fontsize="16" />
-			<widget name="btn_confirm_no" type="ButtonWidget" pos="0.55 0.7" size="0.35 0.2" text="CANCELAR" font="gui/fonts/Roboto" fontsize="16" />
-		</widget>
-	</widget>
-</layoutset>
+FrameWidgetClass ConfirmDialogFrame {
+ ignorepointer 0
+ color 0 0 0 0.5
+ position 0 0
+ size 1 1
+ halign center_ref
+ valign center_ref
+ hexactpos 0
+ vexactpos 0
+ hexactsize 0
+ vexactsize 0
+ {
+  PanelWidgetClass ConfirmDialogPanel {
+   color 0.2 0.2 0.2 0.95
+   position 0.3 0.3
+   size 0.4 0.35
+   halign left_ref
+   valign top_ref
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   {
+    ImageWidgetClass ConfirmDialogBackground {
+     visible 1
+     color 0.15 0.15 0.15 1
+     position 0.004 0.008
+     size 0.992 0.984
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     "src alpha" 0
+    }
+    TextWidgetClass ConfirmDialogTitle {
+     ignorepointer 1
+     position 0.05 0.06
+     size 0.9 0.1
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text "CONFIRMAR"
+     font "gui/fonts/etelka_monospace_condensed12"
+     "text color" 1 0.749 0 1
+     "text halign" center
+     "text valign" center
+    }
+    RichTextWidgetClass ConfirmDialogMessage {
+     ignorepointer 1
+     position 0.08 0.2
+     size 0.84 0.25
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text ""
+     font "gui/fonts/etelka_monospace_condensed10"
+     "text color" 0.9 0.9 0.9 1
+     "text halign" center
+     "text valign" center
+    }
+    TextWidgetClass ConfirmDialogItemName {
+     ignorepointer 1
+     position 0.08 0.48
+     size 0.84 0.1
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text ""
+     font "gui/fonts/etelka_monospace_condensed10"
+     "text color" 1 1 0.2 1
+     "text halign" center
+     "text valign" center
+    }
+    ButtonWidgetClass btn_confirm_yes {
+     ignorepointer 0
+     position 0.08 0.75
+     size 0.35 0.18
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text "SIM"
+     font "gui/fonts/etelka_monospace_condensed10"
+     "text color" 0.2 1 0.2 1
+    }
+    ButtonWidgetClass btn_confirm_no {
+     ignorepointer 0
+     position 0.57 0.75
+     size 0.35 0.18
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text "CANCELAR"
+     font "gui/fonts/etelka_monospace_condensed10"
+     "text color" 1 0.3 0.3 1
+    }
+   }
+  }
+ }
+}

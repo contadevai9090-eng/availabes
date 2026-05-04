@@ -1,92 +1,710 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<layoutset>
-	<widget name="PIXStoreMenuRoot" type="frame" pos="0 0" size="1 1">
-		<!-- Fundo escuro semi-transparente -->
-		<widget name="Background" type="ImageWidget" pos="0 0" size="1 1" color="0 0 0" alpha="0.85" />
-
-		<!-- Painel principal centralizado -->
-		<widget name="MainPanel" type="frame" pos="0.15 0.05" size="0.7 0.9">
-			<!-- Barra de titulo -->
-			<widget name="TitleBar" type="frame" pos="0 0" size="1 0.08">
-				<widget name="TitleBG" type="ImageWidget" pos="0 0" size="1 1" color="0.1 0.6 0.1" alpha="0.9" />
-				<widget name="TitleText" type="TextWidget" pos="0.02 0.15" size="0.7 0.7" text="PIXStore - Seguro de Veiculos" font="gui/fonts/Roboto" fontsize="22" color="1 1 1" />
-				<widget name="SaldoText" type="TextWidget" pos="0.55 0.15" size="0.3 0.7" text="Saldo: 0 PixCoin" font="gui/fonts/Roboto" fontsize="16" color="0.9 0.9 0.2" halign="right" />
-				<widget name="VIPText" type="TextWidget" pos="0.85 0.15" size="0.13 0.7" text="" font="gui/fonts/Roboto" fontsize="14" color="1 0.84 0" halign="right" />
-			</widget>
-
-			<!-- Info do jogador -->
-			<widget name="PlayerInfoBar" type="frame" pos="0 0.085" size="1 0.04">
-				<widget name="PlayerInfoBG" type="ImageWidget" pos="0 0" size="1 1" color="0.05 0.05 0.05" alpha="0.8" />
-				<widget name="PlayerInfoText" type="TextWidget" pos="0.02 0.1" size="0.5 0.8" text="" font="gui/fonts/Roboto" fontsize="12" color="0.7 0.7 0.7" />
-				<widget name="CooldownText" type="TextWidget" pos="0.5 0.1" size="0.48 0.8" text="" font="gui/fonts/Roboto" fontsize="12" color="0.8 0.5 0.2" halign="right" />
-			</widget>
-
-			<!-- Botoes de aba -->
-			<widget name="TabBar" type="frame" pos="0 0.13" size="1 0.06">
-				<widget name="TabBG" type="ImageWidget" pos="0 0" size="1 1" color="0.08 0.08 0.08" alpha="0.9" />
-				<widget name="btn_tab_seguro" type="ButtonWidget" pos="0.01 0.1" size="0.24 0.8" text="Ativar Seguro" font="gui/fonts/Roboto" fontsize="14" />
-				<widget name="btn_tab_rastrear" type="ButtonWidget" pos="0.26 0.1" size="0.24 0.8" text="Rastrear Veiculo" font="gui/fonts/Roboto" fontsize="14" />
-				<widget name="btn_tab_recuperar" type="ButtonWidget" pos="0.51 0.1" size="0.24 0.8" text="Recuperar Veiculo" font="gui/fonts/Roboto" fontsize="14" />
-				<widget name="btn_tab_info" type="ButtonWidget" pos="0.76 0.1" size="0.23 0.8" text="Meu Painel" font="gui/fonts/Roboto" fontsize="14" />
-			</widget>
-
-			<!-- Area de conteudo -->
-			<widget name="ContentArea" type="frame" pos="0 0.2" size="1 0.72">
-				<widget name="ContentBG" type="ImageWidget" pos="0 0" size="1 1" color="0.06 0.06 0.06" alpha="0.9" />
-
-				<!-- TAB: Ativar Seguro -->
-				<widget name="TabSeguro" type="frame" pos="0.02 0.02" size="0.96 0.96" visible="true">
-					<widget name="SeguroInstrucoes" type="TextWidget" pos="0 0" size="1 0.08" text="Entre em um veiculo e clique em 'Ativar Seguro' para protege-lo" font="gui/fonts/Roboto" fontsize="14" color="0.7 0.7 0.7" />
-					<widget name="SeguroVeiculoAtual" type="TextWidget" pos="0 0.1" size="1 0.06" text="Veiculo atual: Nenhum" font="gui/fonts/Roboto" fontsize="16" color="1 1 1" />
-					<widget name="SeguroCusto" type="TextWidget" pos="0 0.17" size="1 0.05" text="" font="gui/fonts/Roboto" fontsize="14" color="0.9 0.9 0.2" />
-					<widget name="btn_ativar_seguro" type="ButtonWidget" pos="0.3 0.25" size="0.4 0.08" text="ATIVAR SEGURO" font="gui/fonts/Roboto" fontsize="16" />
-
-					<!-- Lista de veiculos segurados -->
-					<widget name="SeguroListaLabel" type="TextWidget" pos="0 0.38" size="1 0.05" text="Veiculos Segurados:" font="gui/fonts/Roboto" fontsize="14" color="0.8 0.8 0.8" />
-					<widget name="veiculos_list" type="TextListboxWidget" pos="0 0.44" size="1 0.5" font="gui/fonts/Roboto" fontsize="13" />
-				</widget>
-
-				<!-- TAB: Rastrear Veiculo -->
-				<widget name="TabRastrear" type="frame" pos="0.02 0.02" size="0.96 0.96" visible="false">
-					<widget name="RastrearInstrucoes" type="TextWidget" pos="0 0" size="1 0.08" text="Selecione um veiculo para rastrear no mapa" font="gui/fonts/Roboto" fontsize="14" color="0.7 0.7 0.7" />
-					<widget name="rastrear_list" type="TextListboxWidget" pos="0 0.1" size="1 0.55" font="gui/fonts/Roboto" fontsize="13" />
-					<widget name="RastrearPosicao" type="TextWidget" pos="0 0.67" size="1 0.06" text="Posicao: --" font="gui/fonts/Roboto" fontsize="14" color="0.5 0.8 1" />
-					<widget name="RastrearDistancia" type="TextWidget" pos="0 0.74" size="1 0.06" text="Distancia: --" font="gui/fonts/Roboto" fontsize="14" color="0.5 0.8 1" />
-					<widget name="btn_rastrear" type="ButtonWidget" pos="0.15 0.83" size="0.3 0.08" text="RASTREAR NO MAPA" font="gui/fonts/Roboto" fontsize="14" />
-					<widget name="btn_atualizar_pos" type="ButtonWidget" pos="0.55 0.83" size="0.3 0.08" text="ATUALIZAR POSICAO" font="gui/fonts/Roboto" fontsize="14" />
-				</widget>
-
-				<!-- TAB: Recuperar Veiculo -->
-				<widget name="TabRecuperar" type="frame" pos="0.02 0.02" size="0.96 0.96" visible="false">
-					<widget name="RecuperarInstrucoes" type="TextWidget" pos="0 0" size="1 0.08" text="Selecione um veiculo segurado para recuperar" font="gui/fonts/Roboto" fontsize="14" color="0.7 0.7 0.7" />
-					<widget name="recuperar_list" type="TextListboxWidget" pos="0 0.1" size="1 0.5" font="gui/fonts/Roboto" fontsize="13" />
-					<widget name="RecuperarInfo" type="TextWidget" pos="0 0.62" size="1 0.06" text="" font="gui/fonts/Roboto" fontsize="14" color="0.9 0.9 0.2" />
-					<widget name="RecuperarCooldown" type="TextWidget" pos="0 0.69" size="1 0.06" text="" font="gui/fonts/Roboto" fontsize="14" color="0.8 0.5 0.2" />
-					<widget name="btn_recuperar" type="ButtonWidget" pos="0.2 0.78" size="0.3 0.08" text="RECUPERAR VEICULO" font="gui/fonts/Roboto" fontsize="16" />
-					<widget name="btn_remover_seguro" type="ButtonWidget" pos="0.55 0.78" size="0.25 0.08" text="REMOVER SEGURO" font="gui/fonts/Roboto" fontsize="14" />
-				</widget>
-
-				<!-- TAB: Meu Painel (Info) -->
-				<widget name="TabInfo" type="frame" pos="0.02 0.02" size="0.96 0.96" visible="false">
-					<widget name="InfoTitulo" type="TextWidget" pos="0 0" size="1 0.06" text="Meu Painel PIXStore" font="gui/fonts/Roboto" fontsize="18" color="1 1 1" />
-					<widget name="InfoSaldo" type="TextWidget" pos="0 0.08" size="1 0.05" text="Saldo PixCoin: 0" font="gui/fonts/Roboto" fontsize="16" color="0.9 0.9 0.2" />
-					<widget name="InfoVIP" type="TextWidget" pos="0 0.14" size="1 0.05" text="Status VIP: Inativo" font="gui/fonts/Roboto" fontsize="16" color="0.7 0.7 0.7" />
-					<widget name="InfoVIPExpira" type="TextWidget" pos="0 0.20" size="1 0.05" text="" font="gui/fonts/Roboto" fontsize="14" color="1 0.84 0" />
-					<widget name="InfoVeiculos" type="TextWidget" pos="0 0.27" size="1 0.05" text="Veiculos Segurados: 0/3" font="gui/fonts/Roboto" fontsize="14" color="0.7 0.7 0.7" />
-					<widget name="InfoCooldown" type="TextWidget" pos="0 0.33" size="1 0.05" text="Cooldown: Disponivel" font="gui/fonts/Roboto" fontsize="14" color="0.5 0.8 0.5" />
-
-					<widget name="InfoLogLabel" type="TextWidget" pos="0 0.42" size="1 0.05" text="Atividade Recente:" font="gui/fonts/Roboto" fontsize="14" color="0.8 0.8 0.8" />
-					<widget name="info_logs_list" type="TextListboxWidget" pos="0 0.48" size="1 0.45" font="gui/fonts/Roboto" fontsize="11" />
-				</widget>
-			</widget>
-
-			<!-- Barra inferior -->
-			<widget name="BottomBar" type="frame" pos="0 0.93" size="1 0.07">
-				<widget name="BottomBG" type="ImageWidget" pos="0 0" size="1 1" color="0.05 0.05 0.05" alpha="0.9" />
-				<widget name="StatusText" type="TextWidget" pos="0.02 0.2" size="0.6 0.6" text="" font="gui/fonts/Roboto" fontsize="12" color="0.6 0.6 0.6" />
-				<widget name="btn_refresh" type="ButtonWidget" pos="0.7 0.1" size="0.13 0.8" text="Atualizar" font="gui/fonts/Roboto" fontsize="13" />
-				<widget name="btn_close" type="ButtonWidget" pos="0.85 0.1" size="0.13 0.8" text="Fechar" font="gui/fonts/Roboto" fontsize="13" />
-			</widget>
-		</widget>
-	</widget>
-</layoutset>
+FrameWidgetClass PIXStoreMenuRoot {
+ ignorepointer 0
+ color 0 0 0 0.85
+ position 0 0
+ size 1 1
+ halign center_ref
+ valign center_ref
+ hexactpos 0
+ vexactpos 0
+ hexactsize 0
+ vexactsize 0
+ {
+  PanelWidgetClass MainPanel {
+   color 0.12 0.12 0.12 0.95
+   position 0.15 0.05
+   size 0.7 0.9
+   halign left_ref
+   valign top_ref
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   {
+    ImageWidgetClass TitleBG {
+     visible 1
+     color 0.1 0.6 0.1 0.9
+     position 0 0
+     size 1 0.08
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     "src alpha" 0
+    }
+    TextWidgetClass TitleText {
+     ignorepointer 1
+     position 0.02 0.01
+     size 0.5 0.06
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text "PIXStore - Seguro de Veiculos"
+     font "gui/fonts/etelka_monospace_condensed12"
+     "text color" 1 1 1 1
+     "text halign" left
+     "text valign" center
+    }
+    TextWidgetClass SaldoText {
+     ignorepointer 1
+     position 0.5 0.01
+     size 0.35 0.06
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text "Saldo: 0 PixCoin"
+     font "gui/fonts/etelka_monospace_condensed10"
+     "text color" 0.9 0.9 0.2 1
+     "text halign" right
+     "text valign" center
+    }
+    TextWidgetClass VIPText {
+     ignorepointer 1
+     position 0.87 0.01
+     size 0.12 0.06
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text ""
+     font "gui/fonts/etelka_monospace_condensed10"
+     "text color" 1 0.84 0 1
+     "text halign" right
+     "text valign" center
+    }
+    ImageWidgetClass PlayerInfoBG {
+     visible 1
+     color 0.05 0.05 0.05 0.8
+     position 0 0.08
+     size 1 0.04
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     "src alpha" 0
+    }
+    TextWidgetClass PlayerInfoText {
+     ignorepointer 1
+     position 0.02 0.085
+     size 0.5 0.03
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text ""
+     font "gui/fonts/etelka_monospace_condensed10"
+     "text color" 0.7 0.7 0.7 1
+     "text halign" left
+     "text valign" center
+    }
+    TextWidgetClass CooldownText {
+     ignorepointer 1
+     position 0.5 0.085
+     size 0.48 0.03
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text ""
+     font "gui/fonts/etelka_monospace_condensed10"
+     "text color" 0.8 0.5 0.2 1
+     "text halign" right
+     "text valign" center
+    }
+    ImageWidgetClass TabBG {
+     visible 1
+     color 0.08 0.08 0.08 0.9
+     position 0 0.13
+     size 1 0.06
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     "src alpha" 0
+    }
+    ButtonWidgetClass btn_tab_seguro {
+     ignorepointer 0
+     position 0.01 0.135
+     size 0.24 0.05
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text "Ativar Seguro"
+     font "gui/fonts/etelka_monospace_condensed10"
+    }
+    ButtonWidgetClass btn_tab_rastrear {
+     ignorepointer 0
+     position 0.26 0.135
+     size 0.24 0.05
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text "Rastrear Veiculo"
+     font "gui/fonts/etelka_monospace_condensed10"
+    }
+    ButtonWidgetClass btn_tab_recuperar {
+     ignorepointer 0
+     position 0.51 0.135
+     size 0.24 0.05
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text "Recuperar Veiculo"
+     font "gui/fonts/etelka_monospace_condensed10"
+    }
+    ButtonWidgetClass btn_tab_info {
+     ignorepointer 0
+     position 0.76 0.135
+     size 0.23 0.05
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text "Meu Painel"
+     font "gui/fonts/etelka_monospace_condensed10"
+    }
+    ImageWidgetClass ContentBG {
+     visible 1
+     color 0.06 0.06 0.06 0.9
+     position 0 0.2
+     size 1 0.72
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     "src alpha" 0
+    }
+    FrameWidgetClass TabSeguro {
+     visible 1
+     position 0.02 0.22
+     size 0.96 0.68
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     {
+      TextWidgetClass SeguroInstrucoes {
+       ignorepointer 1
+       position 0 0
+       size 1 0.08
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "Entre em um veiculo e clique em Ativar Seguro"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.7 0.7 0.7 1
+       "text halign" left
+       "text valign" center
+      }
+      TextWidgetClass SeguroVeiculoAtual {
+       ignorepointer 1
+       position 0 0.1
+       size 1 0.06
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "Veiculo atual: Nenhum"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 1 1 1 1
+       "text halign" left
+       "text valign" center
+      }
+      TextWidgetClass SeguroCusto {
+       ignorepointer 1
+       position 0 0.17
+       size 1 0.05
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text ""
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.9 0.9 0.2 1
+       "text halign" left
+       "text valign" center
+      }
+      ButtonWidgetClass btn_ativar_seguro {
+       ignorepointer 0
+       position 0.3 0.25
+       size 0.4 0.08
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "ATIVAR SEGURO"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.2 1 0.2 1
+      }
+      TextWidgetClass SeguroListaLabel {
+       ignorepointer 1
+       position 0 0.38
+       size 1 0.05
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "Veiculos Segurados:"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.8 0.8 0.8 1
+       "text halign" left
+       "text valign" center
+      }
+      TextListboxWidgetClass veiculos_list {
+       ignorepointer 0
+       position 0 0.44
+       size 1 0.5
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.9 0.9 0.9 1
+      }
+     }
+    }
+    FrameWidgetClass TabRastrear {
+     visible 0
+     position 0.02 0.22
+     size 0.96 0.68
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     {
+      TextWidgetClass RastrearInstrucoes {
+       ignorepointer 1
+       position 0 0
+       size 1 0.08
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "Selecione um veiculo para rastrear no mapa"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.7 0.7 0.7 1
+       "text halign" left
+       "text valign" center
+      }
+      TextListboxWidgetClass rastrear_list {
+       ignorepointer 0
+       position 0 0.1
+       size 1 0.55
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.9 0.9 0.9 1
+      }
+      TextWidgetClass RastrearPosicao {
+       ignorepointer 1
+       position 0 0.67
+       size 1 0.06
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "Posicao: --"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.5 0.8 1 1
+       "text halign" left
+       "text valign" center
+      }
+      TextWidgetClass RastrearDistancia {
+       ignorepointer 1
+       position 0 0.74
+       size 1 0.06
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "Distancia: --"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.5 0.8 1 1
+       "text halign" left
+       "text valign" center
+      }
+      ButtonWidgetClass btn_rastrear {
+       ignorepointer 0
+       position 0.15 0.83
+       size 0.3 0.08
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "RASTREAR NO MAPA"
+       font "gui/fonts/etelka_monospace_condensed10"
+      }
+      ButtonWidgetClass btn_atualizar_pos {
+       ignorepointer 0
+       position 0.55 0.83
+       size 0.3 0.08
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "ATUALIZAR POSICAO"
+       font "gui/fonts/etelka_monospace_condensed10"
+      }
+     }
+    }
+    FrameWidgetClass TabRecuperar {
+     visible 0
+     position 0.02 0.22
+     size 0.96 0.68
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     {
+      TextWidgetClass RecuperarInstrucoes {
+       ignorepointer 1
+       position 0 0
+       size 1 0.08
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "Selecione um veiculo segurado para recuperar"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.7 0.7 0.7 1
+       "text halign" left
+       "text valign" center
+      }
+      TextListboxWidgetClass recuperar_list {
+       ignorepointer 0
+       position 0 0.1
+       size 1 0.5
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.9 0.9 0.9 1
+      }
+      TextWidgetClass RecuperarInfo {
+       ignorepointer 1
+       position 0 0.62
+       size 1 0.06
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text ""
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.9 0.9 0.2 1
+       "text halign" left
+       "text valign" center
+      }
+      TextWidgetClass RecuperarCooldown {
+       ignorepointer 1
+       position 0 0.69
+       size 1 0.06
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text ""
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.8 0.5 0.2 1
+       "text halign" left
+       "text valign" center
+      }
+      ButtonWidgetClass btn_recuperar {
+       ignorepointer 0
+       position 0.2 0.78
+       size 0.3 0.08
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "RECUPERAR VEICULO"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.2 1 0.2 1
+      }
+      ButtonWidgetClass btn_remover_seguro {
+       ignorepointer 0
+       position 0.55 0.78
+       size 0.25 0.08
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "REMOVER SEGURO"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 1 0.3 0.3 1
+      }
+     }
+    }
+    FrameWidgetClass TabInfo {
+     visible 0
+     position 0.02 0.22
+     size 0.96 0.68
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     {
+      TextWidgetClass InfoTitulo {
+       ignorepointer 1
+       position 0 0
+       size 1 0.06
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "Meu Painel PIXStore"
+       font "gui/fonts/etelka_monospace_condensed12"
+       "text color" 1 1 1 1
+       "text halign" left
+       "text valign" center
+      }
+      TextWidgetClass InfoSaldo {
+       ignorepointer 1
+       position 0 0.08
+       size 1 0.05
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "Saldo PixCoin: 0"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.9 0.9 0.2 1
+       "text halign" left
+       "text valign" center
+      }
+      TextWidgetClass InfoVIP {
+       ignorepointer 1
+       position 0 0.14
+       size 1 0.05
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "Status VIP: Inativo"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.7 0.7 0.7 1
+       "text halign" left
+       "text valign" center
+      }
+      TextWidgetClass InfoVIPExpira {
+       ignorepointer 1
+       position 0 0.20
+       size 1 0.05
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text ""
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 1 0.84 0 1
+       "text halign" left
+       "text valign" center
+      }
+      TextWidgetClass InfoVeiculos {
+       ignorepointer 1
+       position 0 0.27
+       size 1 0.05
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "Veiculos Segurados: 0/3"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.7 0.7 0.7 1
+       "text halign" left
+       "text valign" center
+      }
+      TextWidgetClass InfoCooldown {
+       ignorepointer 1
+       position 0 0.33
+       size 1 0.05
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "Cooldown: Disponivel"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.5 0.8 0.5 1
+       "text halign" left
+       "text valign" center
+      }
+      TextWidgetClass InfoLogLabel {
+       ignorepointer 1
+       position 0 0.42
+       size 1 0.05
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "Atividade Recente:"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.8 0.8 0.8 1
+       "text halign" left
+       "text valign" center
+      }
+      TextListboxWidgetClass info_logs_list {
+       ignorepointer 0
+       position 0 0.48
+       size 1 0.45
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.9 0.9 0.9 1
+      }
+     }
+    }
+    ImageWidgetClass BottomBG {
+     visible 1
+     color 0.05 0.05 0.05 0.9
+     position 0 0.93
+     size 1 0.07
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     "src alpha" 0
+    }
+    TextWidgetClass StatusText {
+     ignorepointer 1
+     position 0.02 0.94
+     size 0.6 0.05
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text ""
+     font "gui/fonts/etelka_monospace_condensed10"
+     "text color" 0.6 0.6 0.6 1
+     "text halign" left
+     "text valign" center
+    }
+    ButtonWidgetClass btn_refresh {
+     ignorepointer 0
+     position 0.7 0.935
+     size 0.13 0.055
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text "Atualizar"
+     font "gui/fonts/etelka_monospace_condensed10"
+    }
+    ButtonWidgetClass btn_close {
+     ignorepointer 0
+     position 0.85 0.935
+     size 0.13 0.055
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text "Fechar"
+     font "gui/fonts/etelka_monospace_condensed10"
+    }
+   }
+  }
+ }
+}
