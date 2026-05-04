@@ -119,12 +119,10 @@ class PIXStoreAntiTheft
 
 		vector pos = car.GetPosition();
 
-		// Aplicar dano maximo para explodir
+		// Aplicar dano maximo para explodir (FuelTank=0 gera efeito de fogo nativo)
 		car.SetHealth("Engine", "Health", 0);
+		car.SetHealth("FuelTank", "Health", 0);
 		car.SetHealth("", "Health", 0);
-
-		// Criar explosao visual
-		Particle.PlayOnObject(ParticleList.EXPANSION_FIRE_MEDIUM, car, Vector(0, 0, 0));
 
 		// Deletar apos breve delay para mostrar a explosao
 		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(DeletarVeiculoDelayed, 3000, false, car);
