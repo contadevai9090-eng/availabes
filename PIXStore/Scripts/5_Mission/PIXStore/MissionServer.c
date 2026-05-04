@@ -175,7 +175,7 @@ modded class MissionServer
 			ChatMessageEventParams chatParams = ChatMessageEventParams.Cast(params);
 			if (chatParams)
 			{
-				string mensagem = chatParams.param2;
+				string mensagem = chatParams.param3;
 
 				// Verificar se e um comando PIXStore
 				if (mensagem.IndexOf("/darpixcoin") == 0 || mensagem.IndexOf("/viprestante") == 0 || mensagem.IndexOf("/darvip") == 0 || mensagem.IndexOf("/removervip") == 0 || mensagem.IndexOf("/pixsaldo") == 0)
@@ -187,7 +187,7 @@ modded class MissionServer
 					foreach (Man man : players)
 					{
 						PlayerBase player = PlayerBase.Cast(man);
-						if (player && player.GetIdentity() && player.GetIdentity().GetName() == chatParams.param1)
+						if (player && player.GetIdentity() && player.GetIdentity().GetName() == chatParams.param2)
 						{
 							PIXStoreAdminCommands.ProcessarComando(player.GetIdentity(), mensagem);
 							break;
