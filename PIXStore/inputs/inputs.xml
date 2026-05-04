@@ -3,14 +3,19 @@
     <inputs>
         <actions>
             <input name="UAOpenPIXStoreMenu" loc="Abrir Menu PIXStore" />
+            <input name="UAOpenPIXStoreAdmin" loc="Abrir Painel Admin PIXStore" />
         </actions>
         <sorting name="PIXStore" loc="PIXStore - Seguro de Veiculos">
             <input name="UAOpenPIXStoreMenu" />
+            <input name="UAOpenPIXStoreAdmin" />
         </sorting>
     </inputs>
     <preset>
         <input name="UAOpenPIXStoreMenu">
             <btn name="kI" />
+        </input>
+        <input name="UAOpenPIXStoreAdmin">
+            <btn name="kF12" />
         </input>
     </preset>
 </root>

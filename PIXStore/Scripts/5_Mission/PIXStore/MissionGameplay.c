@@ -4,6 +4,7 @@ modded class MissionGameplay
 {
 	ref PIXStoreMenu m_PIXStoreMenu;
 	ref PIXStoreConfirmDialog m_PIXStoreConfirmDialog;
+	ref PIXStoreAdminMenu m_PIXStoreAdminMenu;
 
 	override void OnInit()
 	{
@@ -13,6 +14,10 @@ modded class MissionGameplay
 		GetRPCManager().AddRPC("PIXStore", "ReceivePlayerData", this, SingeplayerExecutionType.Client);
 		GetRPCManager().AddRPC("PIXStore", "UpdateMapMarkers", this, SingeplayerExecutionType.Client);
 		GetRPCManager().AddRPC("PIXStore", "ReceiveStatusMessage", this, SingeplayerExecutionType.Client);
+
+		// RPCs Admin (cliente recebe)
+		GetRPCManager().AddRPC("PIXStore", "AdminReceivePlayerList", this, SingeplayerExecutionType.Client);
+		GetRPCManager().AddRPC("PIXStore", "AdminReceiveResponse", this, SingeplayerExecutionType.Client);
 	}
 
 	override void OnUpdate(float timeslice)
@@ -27,6 +32,12 @@ modded class MissionGameplay
 			if (input.LocalPress("UAOpenPIXStoreMenu", false))
 			{
 				CloseAllMenusAndOpenPIXStore();
+			}
+
+			// Detectar input para abrir painel admin (F12)
+			if (input.LocalPress("UAOpenPIXStoreAdmin", false))
+			{
+				ToggleAdminPanel();
 			}
 
 			// Detectar ESC para fechar menus PIXStore
@@ -51,6 +62,14 @@ modded class MissionGameplay
 						m_PIXStoreConfirmDialog = null;
 						return;
 					}
+
+					PIXStoreAdminMenu adminMenu;
+					if (Class.CastTo(adminMenu, currentMenu))
+					{
+						adminMenu.Close();
+						m_PIXStoreAdminMenu = null;
+						return;
+					}
 				}
 
 				// Verificar menus orfaos
@@ -64,8 +83,45 @@ modded class MissionGameplay
 					m_PIXStoreConfirmDialog.Close();
 					m_PIXStoreConfirmDialog = null;
 				}
+				else if (m_PIXStoreAdminMenu && m_PIXStoreAdminMenu.layoutRoot)
+				{
+					m_PIXStoreAdminMenu.Close();
+					m_PIXStoreAdminMenu = null;
+				}
 			}
 		}
+	}
+
+	// Toggle painel admin (F12)
+	void ToggleAdminPanel()
+	{
+		UIScriptedMenu currentMenu = GetGame().GetUIManager().GetMenu();
+
+		// Se admin ja aberto, fechar
+		if (currentMenu)
+		{
+			PIXStoreAdminMenu adminMenu;
+			if (Class.CastTo(adminMenu, currentMenu))
+			{
+				adminMenu.Close();
+				m_PIXStoreAdminMenu = null;
+				return;
+			}
+			currentMenu.Close();
+		}
+
+		CloseNativeDayZMenus(GetUIManager());
+
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(OpenAdminMenuSafe, 100, false);
+	}
+
+	void OpenAdminMenuSafe()
+	{
+		if (m_PIXStoreAdminMenu)
+			m_PIXStoreAdminMenu.Close();
+
+		m_PIXStoreAdminMenu = new PIXStoreAdminMenu();
+		GetGame().GetUIManager().ShowScriptedMenu(m_PIXStoreAdminMenu, null);
 	}
 
 	void CloseAllMenusAndOpenPIXStore()
@@ -168,12 +224,50 @@ modded class MissionGameplay
 		}
 	}
 
+	// RPC Admin: Receber lista de jogadores
+	void AdminReceivePlayerList(CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target)
+	{
+		if (type == CallType.Client)
+		{
+			Param1<string> data;
+			if (!ctx.Read(data))
+				return;
+
+			if (m_PIXStoreAdminMenu)
+			{
+				m_PIXStoreAdminMenu.PopulatePlayerList(data.param1);
+			}
+		}
+	}
+
+	// RPC Admin: Receber resposta de acao
+	void AdminReceiveResponse(CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target)
+	{
+		if (type == CallType.Client)
+		{
+			Param1<string> data;
+			if (!ctx.Read(data))
+				return;
+
+			if (m_PIXStoreAdminMenu)
+			{
+				m_PIXStoreAdminMenu.ReceiveAdminResponse(data.param1);
+			}
+		}
+	}
+
 	override void OnMissionFinish()
 	{
 		if (m_PIXStoreMenu)
 		{
 			m_PIXStoreMenu.Close();
 			m_PIXStoreMenu = null;
+		}
+
+		if (m_PIXStoreAdminMenu)
+		{
+			m_PIXStoreAdminMenu.Close();
+			m_PIXStoreAdminMenu = null;
 		}
 
 		super.OnMissionFinish();
