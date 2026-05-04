@@ -1,0 +1,14 @@
+{
+  "name": "pixpbo-discord-bot",
+  "version": "1.0.0",
+  "description": "Bot Discord para gerenciamento de licencas PixPBO Protect",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js",
+    "dev": "node bot.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "better-sqlite3": "^9.4.3"
+  }
+}

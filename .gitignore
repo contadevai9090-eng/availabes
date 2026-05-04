@@ -1,0 +1,11 @@
+node_modules/
+dist/
+Backups/
+Output/
+Logs/
+Keys/
+Temp/
+*.log
+.env
+discord-bot/licenses.db
+discord-bot/node_modules/
