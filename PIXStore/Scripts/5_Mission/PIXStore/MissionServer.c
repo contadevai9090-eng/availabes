@@ -170,30 +170,38 @@ modded class MissionServer
 	{
 		super.OnEvent(eventTypeId, params);
 
-		if (eventTypeId == ChatMessageEventTypeID)
+		if (eventTypeId != ChatMessageEventTypeID)
+			return;
+
+		ChatMessageEventParams chatParams = ChatMessageEventParams.Cast(params);
+		if (!chatParams)
+			return;
+
+		string senderName = chatParams.param2;
+		string mensagem = chatParams.param3;
+
+		if (mensagem.Length() == 0)
+			return;
+
+		// Verificar se e um comando PIXStore
+		if (mensagem.IndexOf("/darpixcoin") != 0 && mensagem.IndexOf("/viprestante") != 0 && mensagem.IndexOf("/darvip") != 0 && mensagem.IndexOf("/removervip") != 0 && mensagem.IndexOf("/pixsaldo") != 0)
+			return;
+
+		// Encontrar a identidade do jogador que enviou
+		ref array<Man> players = new array<Man>;
+		GetGame().GetPlayers(players);
+
+		for (int i = 0; i < players.Count(); i++)
 		{
-			ChatMessageEventParams chatParams = ChatMessageEventParams.Cast(params);
-			if (chatParams)
+			PlayerBase player = PlayerBase.Cast(players.Get(i));
+			if (!player || !player.GetIdentity())
+				continue;
+
+			string playerName = player.GetIdentity().GetName();
+			if (playerName == senderName)
 			{
-				string mensagem = chatParams.param3;
-
-				// Verificar se e um comando PIXStore
-				if (mensagem.IndexOf("/darpixcoin") == 0 || mensagem.IndexOf("/viprestante") == 0 || mensagem.IndexOf("/darvip") == 0 || mensagem.IndexOf("/removervip") == 0 || mensagem.IndexOf("/pixsaldo") == 0)
-				{
-					// Encontrar a identidade do jogador que enviou
-					ref array<Man> players = new array<Man>;
-					GetGame().GetPlayers(players);
-
-					foreach (Man man : players)
-					{
-						PlayerBase player = PlayerBase.Cast(man);
-						if (player && player.GetIdentity() && player.GetIdentity().GetName() == chatParams.param2)
-						{
-							PIXStoreAdminCommands.ProcessarComando(player.GetIdentity(), mensagem);
-							break;
-						}
-					}
-				}
+				PIXStoreAdminCommands.ProcessarComando(player.GetIdentity(), mensagem);
+				break;
 			}
 		}
 	}
