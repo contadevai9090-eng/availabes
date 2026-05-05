@@ -9,3 +9,4 @@ Temp/
 .env
 discord-bot/licenses.db
 discord-bot/node_modules/
+pixsupport-bot/node_modules/

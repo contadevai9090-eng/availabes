@@ -1,0 +1,22 @@
+{
+  "token": "SEU_TOKEN_AQUI",
+  "clientId": "ID_DO_CLIENTE",
+  "guildId": "ID_DO_SERVIDOR",
+  "logChannelId": "ID_CANAL_LOGS",
+  "ticketCategoryId": "ID_CATEGORIA_TICKET",
+  "staffRoleId": "ID_CARGO_STAFF",
+  "donationLink": "SUA_CHAVE_PIX_OU_LINK",
+  "donationInstructions": "Envie o comprovante neste ticket apos realizar o pagamento.",
+  "serverLogo": "https://i.imgur.com/XXXXXXX.png",
+  "serverName": "BR Terra Sem Lei",
+  "embedColor": "#00FF88",
+  "cooldownSeconds": 60,
+  "dayz": {
+    "serverIp": "0.0.0.0",
+    "serverPort": 2302,
+    "queryPort": 27016,
+    "connectUrl": "steam://connect/{ip}:{port}",
+    "vipRoleId": "ID_CARGO_VIP",
+    "topKillsChannelId": "ID_CANAL_TOP_KILLS"
+  }
+}
