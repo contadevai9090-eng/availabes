@@ -1,0 +1,23 @@
+[project]
+name = "pbo-deobfuscator"
+version = "1.0.0"
+description = "Desobfuscador de arquivos PBO para DayZ e ArmA 3 - Inspirado no pbo.tools"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "PixPBO Team"}
+]
+keywords = ["pbo", "dayz", "arma3", "deobfuscator", "modding"]
+
+dependencies = []
+
+[project.scripts]
+pbo-deobfuscator = "pbo_deobfuscator.cli:main"
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
