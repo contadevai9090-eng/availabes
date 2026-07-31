@@ -1,0 +1,385 @@
+FrameWidgetClass AdminFrameGlobal {
+ ignorepointer 0
+ color 0 0 0 0.85
+ position 0 0
+ size 1 1
+ halign center_ref
+ valign center_ref
+ hexactpos 0
+ vexactpos 0
+ hexactsize 0
+ vexactsize 0
+ {
+  PanelWidgetClass AdminMainPanel {
+   color 0.12 0.12 0.12 0.95
+   position 0.1 0.05
+   size 0.8 0.9
+   halign left_ref
+   valign top_ref
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   {
+    ImageWidgetClass AdminTitleBG {
+     visible 1
+     color 0.8 0.2 0.2 0.9
+     position 0 0
+     size 1 0.07
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     "src alpha" 0
+    }
+    TextWidgetClass AdminTitleText {
+     ignorepointer 1
+     position 0.02 0.01
+     size 0.96 0.05
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text "PIXStore - PAINEL ADMIN"
+     font "gui/fonts/etelka_monospace_condensed12"
+     "text color" 1 1 1 1
+     "text halign" center
+     "text valign" center
+    }
+    TextWidgetClass AdminStatusText {
+     ignorepointer 1
+     position 0.02 0.075
+     size 0.96 0.03
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text ""
+     font "gui/fonts/etelka_monospace_condensed10"
+     "text color" 0.5 1 0.5 1
+     "text halign" center
+     "text valign" center
+    }
+    FrameWidgetClass AdminLeftPanel {
+     position 0.01 0.12
+     size 0.35 0.82
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     {
+      TextWidgetClass AdminPlayersLabel {
+       ignorepointer 1
+       position 0 0
+       size 1 0.04
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "Jogadores Online:"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.8 0.8 0.8 1
+       "text halign" left
+       "text valign" center
+      }
+      TextListboxWidgetClass admin_players_list {
+       ignorepointer 0
+       position 0 0.05
+       size 1 0.7
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.9 0.9 0.9 1
+      }
+      TextWidgetClass AdminSelectedInfo {
+       ignorepointer 1
+       position 0 0.77
+       size 1 0.04
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "Selecionado: Nenhum"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.9 0.9 0.2 1
+       "text halign" left
+       "text valign" center
+      }
+      TextWidgetClass AdminSelectedSaldo {
+       ignorepointer 1
+       position 0 0.82
+       size 1 0.04
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "Saldo: --"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.9 0.9 0.2 1
+       "text halign" left
+       "text valign" center
+      }
+      TextWidgetClass AdminSelectedVIP {
+       ignorepointer 1
+       position 0 0.87
+       size 1 0.04
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "VIP: --"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 1 0.84 0 1
+       "text halign" left
+       "text valign" center
+      }
+      ButtonWidgetClass btn_admin_refresh_players {
+       ignorepointer 0
+       position 0 0.93
+       size 1 0.06
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "ATUALIZAR LISTA"
+       font "gui/fonts/etelka_monospace_condensed10"
+      }
+     }
+    }
+    FrameWidgetClass AdminRightPanel {
+     position 0.37 0.12
+     size 0.62 0.82
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     {
+      TextWidgetClass AdminActionsLabel {
+       ignorepointer 1
+       position 0 0
+       size 1 0.04
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "Acoes Admin:"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.8 0.8 0.8 1
+       "text halign" left
+       "text valign" center
+      }
+      TextWidgetClass AdminSteamIdLabel {
+       ignorepointer 1
+       position 0 0.06
+       size 0.25 0.04
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "SteamID:"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.7 0.7 0.7 1
+       "text halign" left
+       "text valign" center
+      }
+      EditBoxWidgetClass admin_steamid_input {
+       ignorepointer 0
+       position 0.2 0.055
+       size 0.8 0.05
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 1 1 1 1
+      }
+      TextWidgetClass AdminValorLabel {
+       ignorepointer 1
+       position 0 0.12
+       size 0.25 0.04
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "Valor/Dias:"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.7 0.7 0.7 1
+       "text halign" left
+       "text valign" center
+      }
+      EditBoxWidgetClass admin_valor_input {
+       ignorepointer 0
+       position 0.2 0.115
+       size 0.8 0.05
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 1 1 1 1
+      }
+      ButtonWidgetClass btn_admin_dar_pixcoin {
+       ignorepointer 0
+       position 0 0.2
+       size 0.48 0.07
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "DAR PIXCOIN"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.2 1 0.2 1
+      }
+      ButtonWidgetClass btn_admin_remover_pixcoin {
+       ignorepointer 0
+       position 0.52 0.2
+       size 0.48 0.07
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "REMOVER PIXCOIN"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 1 0.3 0.3 1
+      }
+      ButtonWidgetClass btn_admin_dar_vip {
+       ignorepointer 0
+       position 0 0.3
+       size 0.48 0.07
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "DAR VIP (dias)"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 1 0.84 0 1
+      }
+      ButtonWidgetClass btn_admin_remover_vip {
+       ignorepointer 0
+       position 0.52 0.3
+       size 0.48 0.07
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "REMOVER VIP"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 1 0.3 0.3 1
+      }
+      ButtonWidgetClass btn_admin_ver_saldo {
+       ignorepointer 0
+       position 0 0.4
+       size 0.48 0.07
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "VER SALDO"
+       font "gui/fonts/etelka_monospace_condensed10"
+      }
+      ButtonWidgetClass btn_admin_ver_vip {
+       ignorepointer 0
+       position 0.52 0.4
+       size 0.48 0.07
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "VER VIP RESTANTE"
+       font "gui/fonts/etelka_monospace_condensed10"
+      }
+      TextWidgetClass AdminLogLabel {
+       ignorepointer 1
+       position 0 0.52
+       size 1 0.04
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       text "Log de Acoes:"
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.8 0.8 0.8 1
+       "text halign" left
+       "text valign" center
+      }
+      TextListboxWidgetClass admin_log_list {
+       ignorepointer 0
+       position 0 0.57
+       size 1 0.35
+       halign left_ref
+       valign top_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       font "gui/fonts/etelka_monospace_condensed10"
+       "text color" 0.9 0.9 0.9 1
+      }
+     }
+    }
+    ButtonWidgetClass btn_admin_close {
+     ignorepointer 0
+     position 0.85 0.01
+     size 0.13 0.05
+     halign left_ref
+     valign top_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     text "FECHAR [F12]"
+     font "gui/fonts/etelka_monospace_condensed10"
+     "text color" 1 0.3 0.3 1
+    }
+   }
+  }
+ }
+}
